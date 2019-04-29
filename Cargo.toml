@@ -1,0 +1,10 @@
+[package]
+name = "cards"
+version = "0.1.0"
+authors = ["dannydenenberg <dannydenenberg@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+rand = "0.6.5"
+termion = "1.5.2"
+
