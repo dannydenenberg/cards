@@ -1,3 +1,4 @@
+// edit the constants in this file if you want to change the look of the playing cards. NOTE: the `#` represents where the number/face name will go. 
 pub const heart: &str = r"
     ┌─────────┐
     │#........│
