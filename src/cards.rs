@@ -93,7 +93,7 @@ pub mod cards {
         }
 
         // private helper function
-        fn put_card_in_hand(&mut self, card: Card) {
+        pub fn put_card_in_hand(&mut self, card: Card) {
             self.hand.push(card);
         }
 

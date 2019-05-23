@@ -1,8 +1,10 @@
 extern crate rand;
 use rand::{thread_rng, Rng};
-use std::fmt::Error;
 
-struct Card {
+use crate::art::{diamond, club, heart, spade};
+
+
+pub struct Card {
     suit: Suit,
     value: String,
 }
@@ -70,11 +72,11 @@ impl Player {
     }
 
     // private helper function
-    fn put_card_in_hand(&mut self, card: Card) {
+    pub fn put_card_in_hand(&mut self, card: Card) {
         self.hand.push(card);
     }
 
-    /// Attemps to pick a card from the supplied deck.
+    /// Attempts to pick a card from the supplied deck.
     pub fn pick_card(&mut self, deck: &mut Deck) -> Result<Card, bool> {
         match deck.pick() {
             Some(c) => Ok(c),
@@ -82,26 +84,41 @@ impl Player {
         }
     }
 
+    pub fn print_hand(&self) {
+        let mut cards_in_hand: Vec<String> = Vec::new();
 
-
-    /// takes same dimension ascii drawings and prints them side by side
-    fn print_side_by_side(drawings: Vec<String>) {
-        // represents the lines of each drawing
-        let mut lines: Vec<Vec<String>> = Vec::new();
-
-        // go through the drawings, and put each line into its own vector in the lines vector
-        for pic in drawings {
-            lines.push(pic.split("\n").collect::<Vec<&str>>().iter().map(|s| s.to_string()).collect());
+        for card in &self.hand {
+            cards_in_hand.push(match card {
+                Card { suit: Suit::Diamond, value: v } => diamond.replace("#", v).to_string(),
+                Card { suit: Suit::Club, value: v } => club.replace("#", v).to_string(),
+                Card { suit: Suit::Heart, value: v } => heart.replace("#", v).to_string(),
+                Card { suit: Suit::Spade, value: v } => spade.replace("#", v).to_string(),
+                _ => "".to_string(), // won't reach this statement, but the compiler doesn't know that
+            });
         }
 
-        //// ***NOTE: this assumes all of the drawings are of the same dimentions!***
-        for i in 0..lines[0].clone().len() {
-            // go through all of the pictures and print each line next to eachother
-            for k in lines.clone() {
-                print!("{}", k[i]);
-            }
-            println!();
-        }
+        print_side_by_side(cards_in_hand);
+    }
+}
+
+
+
+/// takes same dimension ascii drawings and prints them side by side
+fn print_side_by_side(drawings: Vec<String>) {
+    // represents the lines of each drawing
+    let mut lines: Vec<Vec<String>> = Vec::new();
+
+    // go through the drawings, and put each line into its own vector in the lines vector
+    for pic in drawings {
+        lines.push(pic.split("\n").collect::<Vec<&str>>().iter().map(|s| s.to_string()).collect());
     }
 
+    //// ***NOTE: this assumes all of the drawings are of the same dimentions!***
+    for i in 0..lines[0].clone().len() {
+        // go through all of the pictures and print each line next to eachother
+        for k in lines.clone() {
+            print!("{}", k[i]);
+        }
+        println!();
+    }
 }
