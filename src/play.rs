@@ -1,7 +1,7 @@
 extern crate rand;
 use rand::{thread_rng, Rng};
 
-use crate::art::{diamond, club, heart, spade};
+use crate::art::*;
 
 
 pub struct Card {
@@ -89,10 +89,35 @@ impl Player {
 
         for card in &self.hand {
             cards_in_hand.push(match card {
-                Card { suit: Suit::Diamond, value: v } => diamond.replace("#", v).to_string(),
-                Card { suit: Suit::Club, value: v } => club.replace("#", v).to_string(),
-                Card { suit: Suit::Heart, value: v } => heart.replace("#", v).to_string(),
-                Card { suit: Suit::Spade, value: v } => spade.replace("#", v).to_string(),
+                // the 10's have to be printed differently because it is the only card with two characters as its value
+                Card { suit: Suit::Diamond, value: v } => {
+                    if v == &"10".to_string() {
+                        diamond10.replace("#", v).to_string()
+                    } else {
+                        diamond.replace("#", v).to_string()
+                    }
+                },
+                Card { suit: Suit::Club, value: v } => {
+                    if v == &"10".to_string() {
+                        club10.replace("#", v).to_string()
+                    } else {
+                        club.replace("#", v).to_string()
+                    }
+                },
+                Card { suit: Suit::Heart, value: v } => {
+                    if v == &"10".to_string() {
+                        heart10.replace("#", v).to_string()
+                    } else {
+                        heart.replace("#", v).to_string()
+                    }
+                },
+                Card { suit: Suit::Spade, value: v } => {
+                    if v == &"10".to_string() {
+                        spade10.replace("#", v).to_string()
+                    } else {
+                        spade.replace("#", v).to_string()
+                    }
+                },
                 _ => "".to_string(), // won't reach this statement, but the compiler doesn't know that
             });
         }
