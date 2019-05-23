@@ -1,5 +1,6 @@
 extern crate rand;
 use rand::{thread_rng, Rng};
+use std::fmt::Error;
 
 struct Card {
     suit: Suit,
@@ -43,7 +44,7 @@ impl Deck {
 
     pub fn pick(&mut self) -> Option<Card> {
         if self.cards.len() == 0 { return None }
-        return self.cards.pop(); // the pop function returns an option
+        self.cards.pop() // the pop function returns an option
     }
 
     pub fn print(&self) {
@@ -69,8 +70,38 @@ impl Player {
     }
 
     // private helper function
-    fn pick_from_deck(&mut self, deck: &mut Deck) -> Option<Card> {
-        deck.pick()
+    fn put_card_in_hand(&mut self, card: Card) {
+        self.hand.push(card);
     }
-    
+
+    /// Attemps to pick a card from the supplied deck.
+    pub fn pick_card(&mut self, deck: &mut Deck) -> Result<Card, bool> {
+        match deck.pick() {
+            Some(c) => Ok(c),
+            None => Err(true),
+        }
+    }
+
+
+
+    /// takes same dimension ascii drawings and prints them side by side
+    fn print_side_by_side(drawings: Vec<String>) {
+        // represents the lines of each drawing
+        let mut lines: Vec<Vec<String>> = Vec::new();
+
+        // go through the drawings, and put each line into its own vector in the lines vector
+        for pic in drawings {
+            lines.push(pic.split("\n").collect::<Vec<&str>>().iter().map(|s| s.to_string()).collect());
+        }
+
+        //// ***NOTE: this assumes all of the drawings are of the same dimentions!***
+        for i in 0..lines[0].clone().len() {
+            // go through all of the pictures and print each line next to eachother
+            for k in lines.clone() {
+                print!("{}", k[i]);
+            }
+            println!();
+        }
+    }
+
 }
