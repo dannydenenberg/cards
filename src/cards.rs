@@ -1,6 +1,12 @@
-extern crate rand;
+
+
+
+
+
+/********************************* OLD: ***********************************/
 
 pub mod cards {
+    extern crate rand;
     use rand::{thread_rng, Rng};
     use crate::art::*; // club, diamond, spade, heart
 
